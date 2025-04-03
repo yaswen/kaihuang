@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>资源计算器</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 15px;
+    }
+
+    th,
+    td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    input {
+      width: 100px;
+      padding: 5px;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+    }
+
+    button {
+      width: 100%;
+      padding: 8px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    #result {
+      margin-top: 15px;
+      padding: 10px;
+      background-color: #f8f8f8;
+      border-radius: 3px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>资源计算器</h1>
+
+  <table>
+    <tr>
+      <th>资源</th>
+      <th>当前库存</th>
+      <th>每小时产量</th>
+      <th>目标库存</th>
+      <th>屯田可得</th>
+      <th>屯田次数</th>
+    </tr>
+    <tr>
+      <td>木材</td>
+      <td><input type="number" id="woodStock" min="0"></td>
+      <td><input type="number" id="woodRate" min="0"></td>
+      <td><input type="number" id="woodTarget" min="0"></td>
+      <td><input type="number" id="woodBonus" min="0" value="0"></td>
+      <td><input type="number" id="woodTimes" min="0" value="0"></td>
+    </tr>
+    <tr>
+      <td>铁矿</td>
+      <td><input type="number" id="ironStock" min="0"></td>
+      <td><input type="number" id="ironRate" min="0"></td>
+      <td><input type="number" id="ironTarget" min="0"></td>
+      <td><input type="number" id="ironBonus" min="0" value="0"></td>
+      <td><input type="number" id="ironTimes" min="0" value="0"></td>
+    </tr>
+    <tr>
+      <td>石料</td>
+      <td><input type="number" id="stoneStock" min="0"></td>
+      <td><input type="number" id="stoneRate" min="0"></td>
+      <td><input type="number" id="stoneTarget" min="0"></td>
+      <td><input type="number" id="stoneBonus" min="0" value="0"></td>
+      <td><input type="number" id="stoneTimes" min="0" value="0"></td>
+    </tr>
+  </table>
+
+  <button onclick="calculate()">计算所需时间</button>
+
+  <div id="result"></div>
+  <div id="tuntianResult"
+    style="margin-top: 15px; padding: 10px; background-color: #f8f8f8; border-radius: 3px; text-align: center;"></div>
+
+  <script src="calculator.js"></script>
+  <script>
+    function calculate() {
+      // 获取输入值
+      const woodStock = parseFloat(document.getElementById('woodStock').value);
+      const woodRate = parseFloat(document.getElementById('woodRate').value);
+      const woodTarget = parseFloat(document.getElementById('woodTarget').value);
+
+      const ironStock = parseFloat(document.getElementById('ironStock').value);
+      const ironRate = parseFloat(document.getElementById('ironRate').value);
+      const ironTarget = parseFloat(document.getElementById('ironTarget').value);
+
+      const stoneStock = parseFloat(document.getElementById('stoneStock').value);
+      const stoneRate = parseFloat(document.getElementById('stoneRate').value);
+      const stoneTarget = parseFloat(document.getElementById('stoneTarget').value);
+
+      // 获取屯田参数
+      const woodBonus = parseFloat(document.getElementById('woodBonus').value) || 0;
+      const woodTimes = parseFloat(document.getElementById('woodTimes').value) || 0;
+      const ironBonus = parseFloat(document.getElementById('ironBonus').value) || 0;
+      const ironTimes = parseFloat(document.getElementById('ironTimes').value) || 0;
+      const stoneBonus = parseFloat(document.getElementById('stoneBonus').value) || 0;
+      const stoneTimes = parseFloat(document.getElementById('stoneTimes').value) || 0;
+
+      // 计算原始时间
+      const originalTime = calculateTimeToTarget(
+        woodStock, woodRate, woodTarget,
+        ironStock, ironRate, ironTarget,
+        stoneStock, stoneRate, stoneTarget
+      );
+
+      // 计算屯田后时间
+      const adjustedWoodTarget = woodTarget - (woodBonus * woodTimes);// 计算屯田后目标库存
+      const adjustedIronTarget = ironTarget - (ironBonus * ironTimes);
+      const adjustedStoneTarget = stoneTarget - (stoneBonus * stoneTimes);
+
+      const tuntianTime = calculateTimeToTarget(
+        woodStock, woodRate, adjustedWoodTarget,
+        ironStock, ironRate, adjustedIronTarget,
+        stoneStock, stoneRate, adjustedStoneTarget
+      );
+
+      // 显示结果
+      const resultElement = document.getElementById('result');
+      const tuntianElement = document.getElementById('tuntianResult');
+
+      if (isNaN(originalTime) || isNaN(tuntianTime)) {
+        resultElement.textContent = '请输入有效的数值';
+        tuntianElement.textContent = '';
+      } else {
+        resultElement.textContent = `所有资源达到目标库存所需时间: ${originalTime.toFixed(2)} 小时`;
+        tuntianElement.textContent = `屯田后达到目标库存所需时间: ${tuntianTime.toFixed(2)} 小时`;
+      }
+    }
+  </script>
+</body>
+
+</html>
