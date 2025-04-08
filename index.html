@@ -38,6 +38,12 @@
       border-radius: 3px;
     }
 
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
     button {
       width: 100%;
       padding: 8px;
@@ -61,6 +67,9 @@
 <body>
   <h1>资源计算器</h1>
 
+  <div style="text-align: right; margin-bottom: 10px;">
+    策书数量: <input type="number" id="policyCount" min="0" value="0">
+  </div>
   <table>
     <tr>
       <th>资源</th>
@@ -95,10 +104,6 @@
       <td><span id="stoneTimes">0</span></td>
     </tr>
   </table>
-
-  <div style="position: absolute; top: 10px; right: 10px;">
-    策书数量: <input type="number" id="policyCount" min="0" value="0">
-  </div>
   <button onclick="calculate()">计算所需时间</button>
 
   <div id="result"></div>
