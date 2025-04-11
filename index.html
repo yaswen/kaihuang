@@ -15,7 +15,7 @@
     }
 
     input {
-      font-size:large;
+      font-size: large;
       width: 100px;
       padding: 4px;
       border: 1px solid #ddd;
@@ -68,11 +68,13 @@
       -webkit-appearance: none;
       margin: 0;
     }
+
     td span {
       color: rgb(220, 70, 6);
       font-weight: bold;
       text-align: center;
     }
+
     button {
       width: 100%;
       padding: 8px;
@@ -83,12 +85,18 @@
       cursor: pointer;
     }
 
-    #result,#tuntianResult {
+    #result,
+    #tuntianResult {
+      white-space: pre-wrap;
       margin-top: 15px;
       padding: 10px;
       background-color: #f8f8f8;
       border-radius: 3px;
       text-align: left;
+    }
+
+    xx {
+      color: rgb(220, 70, 6);
     }
   </style>
 </head>
@@ -189,7 +197,7 @@
       saveValue('policyCount', document.getElementById('policyCount').value);
 
       // 自动计算最优屯田次数分配
-      const { woodTimes, ironTimes, stoneTimes, finalTime, remainingPolicy, policyRecoveryTime } = optimizeTuntianTimes(
+      const { woodTimes, ironTimes, stoneTimes, planContent } = optimizeTuntianTimes(
         policyCount, woodBonus, ironBonus, stoneBonus,
         woodStock, woodRate, woodTarget,
         ironStock, ironRate, ironTarget,
@@ -216,8 +224,8 @@
         resultElement.textContent = '请输入有效的数值';
         tuntianElement.textContent = '';
       } else {
-        resultElement.textContent = `干等的话，所有资源都达到目标库存所需时间: ${timeFormat(originalTime)}`;
-        tuntianElement.textContent = `把现有策书全部屯田后达到目标库存所需时间: ${finalTime.toFixed(2)} 小时\n剩余策书: ${remainingPolicy}\n策书恢复时间: ${policyRecoveryTime.toFixed(2)} 小时`;
+        resultElement.innerHTML = `干等的话，所有资源都达到目标库存所需时间: <xx>${timeFormat(originalTime)}</xx>`;
+        tuntianElement.innerHTML = planContent;
       }
     }
   </script>
