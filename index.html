@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>资源计算器</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <style>
@@ -14,6 +14,14 @@
       padding: 10px;
     }
 
+    input {
+      font-size:large;
+      width: 100px;
+      padding: 4px;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
@@ -22,28 +30,49 @@
 
     th,
     td {
-      padding: 8px;
+      padding: 12px 4px;
       text-align: left;
       border-bottom: 1px solid #ddd;
+
     }
 
     th {
       background-color: #f2f2f2;
     }
 
-    input {
-      width: 100px;
-      padding: 5px;
-      border: 1px solid #ddd;
-      border-radius: 3px;
+    @media only screen and (max-width: 600px) {
+      table {
+        font-size: 14px;
+      }
+
+      input {
+        font-size: 12px;
+        width: 48px;
+        padding: 2px;
+      }
+
+      button {
+        padding: 6px;
+      }
+
+      th,
+      td {
+        padding: 5px 2px;
+      }
     }
+
+
 
     input[type=number]::-webkit-inner-spin-button,
     input[type=number]::-webkit-outer-spin-button {
       -webkit-appearance: none;
       margin: 0;
     }
-
+    td span {
+      color: rgb(220, 70, 6);
+      font-weight: bold;
+      text-align: center;
+    }
     button {
       width: 100%;
       padding: 8px;
@@ -54,12 +83,12 @@
       cursor: pointer;
     }
 
-    #result {
+    #result,#tuntianResult {
       margin-top: 15px;
       padding: 10px;
       background-color: #f8f8f8;
       border-radius: 3px;
-      text-align: center;
+      text-align: left;
     }
   </style>
 </head>
@@ -106,9 +135,8 @@
   </table>
   <button onclick="calculate()">计算所需时间</button>
 
-  <div id="result"></div>
-  <div id="tuntianResult"
-    style="margin-top: 15px; padding: 10px; background-color: #f8f8f8; border-radius: 3px; text-align: center;"></div>
+  <div id="result">输入三种资源的当前库存、产量、目标还有屯一次田能获得多少<br>点击计算按钮，程序自动帮你分配屯田次数，并且计算屯田以后需要等待多少时间。</div>
+  <div id="tuntianResult"></div>
 
   <script src="calculator.js"></script>
   <script>
@@ -161,7 +189,7 @@
       saveValue('policyCount', document.getElementById('policyCount').value);
 
       // 自动计算最优屯田次数分配
-      const { woodTimes, ironTimes, stoneTimes, finalTime,remainingPolicy,policyRecoveryTime } = optimizeTuntianTimes(
+      const { woodTimes, ironTimes, stoneTimes, finalTime, remainingPolicy, policyRecoveryTime } = optimizeTuntianTimes(
         policyCount, woodBonus, ironBonus, stoneBonus,
         woodStock, woodRate, woodTarget,
         ironStock, ironRate, ironTarget,
