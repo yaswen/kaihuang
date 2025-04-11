@@ -216,8 +216,8 @@
         resultElement.textContent = '请输入有效的数值';
         tuntianElement.textContent = '';
       } else {
-        resultElement.textContent = `干等的话，所有资源达到目标库存所需时间: ${originalTime.toFixed(2)} 小时`;
-        tuntianElement.textContent = `屯田后达到目标库存所需时间: ${finalTime.toFixed(2)} 小时\n剩余策书: ${remainingPolicy}\n策书恢复时间: ${policyRecoveryTime.toFixed(2)} 小时`;
+        resultElement.textContent = `干等的话，所有资源都达到目标库存所需时间: ${timeFormat(originalTime)}`;
+        tuntianElement.textContent = `把现有策书全部屯田后达到目标库存所需时间: ${finalTime.toFixed(2)} 小时\n剩余策书: ${remainingPolicy}\n策书恢复时间: ${policyRecoveryTime.toFixed(2)} 小时`;
       }
     }
   </script>

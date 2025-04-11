@@ -41,7 +41,7 @@ function optimizeTuntianTimes(policyCount, woodBonus, ironBonus, stoneBonus, woo
     const woodTime = Math.max(0, (woodTarget - woodStock - (woodBonus * allocation.woodTimes)) / woodRate);
     const ironTime = Math.max(0, (ironTarget - ironStock - (ironBonus * allocation.ironTimes)) / ironRate);
     const stoneTime = Math.max(0, (stoneTarget - stoneStock - (stoneBonus * allocation.stoneTimes)) / stoneRate);
-    console.log(`当前资源所需时间:\n木材: ${woodTime.toFixed(2)}小时\n铁矿: ${ironTime.toFixed(2)}小时\n石料: ${stoneTime.toFixed(2)}小时`);
+    console.log(`当前资源所需时间:\n木材: ${woodTime.toFixed(2)}小时 ${timeFormat(woodTime)}\n铁矿: ${ironTime.toFixed(2)}小时 ${timeFormat(ironTime)}\n石料: ${stoneTime.toFixed(2)}小时 ${timeFormat(stoneTime)}`);
     // 如果所有资源都已达标，提前结束
     if (woodTime <= 0 && ironTime <= 0 && stoneTime <= 0) {
       console.log(`所有资源已达标，提前结束`);
@@ -82,7 +82,7 @@ function optimizeTuntianTimes(policyCount, woodBonus, ironBonus, stoneBonus, woo
   // 处理剩余策书和恢复时间
   const finalTimeInt = Math.floor(allocation.finalTime);//整数部分
   const finalTimeFraction = allocation.finalTime - finalTimeInt;//小数部分
-  console.log(`时间分解: 整数部分=${finalTimeInt}, 小数部分=${finalTimeFraction.toFixed(2)}, 策书恢复时间=${policyRecoveryTime.toFixed(2)}小时`);
+  console.log(`时间分解: 整数部分=${finalTimeInt}, 小数部分=${finalTimeFraction.toFixed(2)}, 策书恢复时间=${policyRecoveryTime.toFixed(2)}小时=${timeFormat(policyRecoveryTime)}`);
 
   // 计算可恢复的策书数量
   let gotPolicy = finalTimeInt + remainingPolicy;
@@ -106,7 +106,12 @@ function optimizeTuntianTimes(policyCount, woodBonus, ironBonus, stoneBonus, woo
     planContent:planContent
   };
 }
-
+function timeFormat(hours){
+  const hoursInt = Math.floor(hours);
+  const minutes = (hours - hoursInt) * 60;
+  const minutesInt = Math.floor(minutes);
+  return `${hoursInt}小时${minutesInt}分钟`;
+}
 // Make functions available globally
 window.calculateTimeToTarget = calculateTimeToTarget;
 window.optimizeTuntianTimes = optimizeTuntianTimes;
